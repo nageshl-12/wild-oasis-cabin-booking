@@ -7,7 +7,7 @@ export default function Layout({ children }) {
         {children}
       </div>
 
-      <div className="md:static w-full fixed -bottom-0.5 z-50 bg-primary-950 row-start-2 md:col-start-1 py md:row-start-1 md:border-t-0 justify-center border-t border-primary-800">
+      <div className="md:static w-full fixed -translate-x-2 -bottom-0.5 z-50 bg-primary-950 row-start-2 md:col-start-1 py md:row-start-1 md:border-t-0 justify-center border-t border-primary-800">
         <SideNavigation />
       </div>
     </div>

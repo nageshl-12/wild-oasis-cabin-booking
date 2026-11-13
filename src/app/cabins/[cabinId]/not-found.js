@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 function NotFound() {
   return (
-    <main className="text-center space-y-6 mt-4">
+    <main className="text-center space-y-6 mt-4 animate-fade-in-up">
       <h1 className="md:text-3xl text-lg font-semibold">
         This cabin could not be found :(
       </h1>

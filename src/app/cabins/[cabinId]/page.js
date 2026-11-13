@@ -1,4 +1,4 @@
-import { getCabin } from '@/lib/data-service';
+import { getCabin, getCabins } from '@/lib/data-service';
 import { EyeDashedIcon, MapPin, User2 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -8,6 +8,16 @@ export async function generateMetadata({ params }) {
   return {
     title: `Cabin ${name}`,
   };
+}
+
+export async function generateStaticParams() {
+  const cabins = await getCabins();
+
+  const id = cabins.map((cabin) => ({
+    cabinId: String(cabin.id),
+  }));
+  console.log(id);
+  return id;
 }
 
 export default async function Page({ params }) {
@@ -20,7 +30,7 @@ export default async function Page({ params }) {
 
   return (
     <div className="max-w-6xl mx-auto mt-8">
-      <div className="grid grid-rows-[220px_1fr] md:grid-cols-[3fr_4fr] md:grid-rows-none gap-8 md:gap-20 border border-primary-800 py-5 px-5 md:py-3 md:px-10 mb-16 md:mb-24">
+      <div className="grid animate-fade-in-up grid-rows-[220px_1fr] md:grid-cols-[3fr_4fr] md:grid-rows-none gap-8 md:gap-20 border border-primary-800 py-5 px-5 md:py-3 md:px-10 mb-16 md:mb-24">
         <div className="relative h-full min-h-55 md:min-h-0 scale-100 md:scale-[1.15] md:-translate-x-3 md:translate-y-0">
           <Image
             src={image}
@@ -71,7 +81,7 @@ export default async function Page({ params }) {
         </div>
       </div>
 
-      <div className="px-4 md:px-0 md:translate-y-0 -translate-y-10">
+      <div className="px-4 md:px-0 md:translate-y-0 -translate-y-10 animate-fade-in-right">
         <h2 className="text-3xl md:text-5xl font-semibold text-center">
           Reserve today. Pay on arrival.
         </h2>

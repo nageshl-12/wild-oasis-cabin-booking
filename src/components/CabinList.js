@@ -2,6 +2,7 @@ import { getCabins } from '@/lib/data-service';
 import CabinCard from '@/components/CabinCard';
 
 export default async function CabinList() {
+  'use cache';
   const cabins = await getCabins();
   if (!cabins.length) return null;
 

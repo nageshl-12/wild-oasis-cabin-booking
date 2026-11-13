@@ -18,13 +18,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`bg-primary-950 antialiased text-primary-100 min-h-screen ${josefin.className} grid grid-rows-[auto_1fr] h-screen overflow-hidden`}
+        className={`bg-primary-950 antialiased text-primary-100 ${josefin.className} grid grid-rows-[auto_minmax(0,1fr)] h-dvh overflow-hidden`}
       >
         <Suspense fallback={null}>
           <Header />
         </Suspense>
 
-        <main className="w-full min-h-0 overflow-y-auto">{children}</main>
+        <main className="w-full min-h-0 overflow-y-auto overscroll-y-contain">
+          {children}
+        </main>
       </body>
     </html>
   );

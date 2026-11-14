@@ -1,5 +1,7 @@
-import { getCabin, getCabins } from '@/lib/data-service';
+import TextExpander from '@/components/TextExpander';
+import { getCabin } from '@/lib/data-service';
 import { EyeDashedIcon, MapPin, User2 } from 'lucide-react';
+import { cacheLife } from 'next/cache';
 import Image from 'next/image';
 
 export async function generateMetadata({ params }) {
@@ -10,17 +12,14 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export async function generateStaticParams() {
-  const cabins = await getCabins();
-
-  const id = cabins.map((cabin) => ({
-    cabinId: String(cabin.id),
-  }));
-  console.log(id);
-  return id;
-}
-
 export default async function Page({ params }) {
+  'use cache';
+  cacheLife({
+    stale: 0,
+    revalidate: 10,
+    expire: 3600,
+  });
+
   const { cabinId } = await params;
 
   const cabin = await getCabin(cabinId);
@@ -51,7 +50,7 @@ export default async function Page({ params }) {
           </h2>
 
           <p className="text-base md:text-lg text-primary-300 mb-7 md:mb-10 md:-translate-x-6 md:-translate-y-5">
-            {description}
+            <TextExpander>{description}</TextExpander>
           </p>
 
           <ul className="flex flex-col gap-5 mb-7">
@@ -81,7 +80,7 @@ export default async function Page({ params }) {
         </div>
       </div>
 
-      <div className="px-4 md:px-0 md:translate-y-0 -translate-y-10 animate-fade-in-right">
+      <div className="px-4 md:px-0 md:translate-y-0 -translate-y-11 animate-fade-in-right">
         <h2 className="text-3xl md:text-5xl font-semibold text-center">
           Reserve today. Pay on arrival.
         </h2>

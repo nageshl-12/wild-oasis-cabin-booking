@@ -2,12 +2,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import About1 from '../../../public/about-1.jpg';
 import About2 from '../../../public/about-2.jpg';
+import { getCabins } from '@/lib/data-service';
+import { cacheLife } from 'next/cache';
 
 export const metadata = {
   title: 'About',
 };
 
-export default function Page() {
+export default async function Page() {
+
+  'use cache';
+  
+  cacheLife({
+    stale: 0,
+    revalidate: 20,
+    expire: 3600,
+  });
+
+  const cabins = await getCabins();
+
   return (
     <div className="space-y-20 px-5 py-5 max-w-250 mx-auto md:mt-5 mt-2 overflow-y-auto">
       {/* First Section */}
@@ -36,10 +49,11 @@ export default function Page() {
             </p>
 
             <p>
-              Our 8 luxury cabins provide a cozy base, but the real freedom and
-              peace you&apos;ll find in the surrounding mountains. Wander
-              through lush forests, breathe in the fresh air, and watch the
-              stars twinkle above from the warmth of a campfire or your hot tub.
+              Our {cabins.length} luxury cabins provide a cozy base, but the
+              real freedom and peace you&apos;ll find in the surrounding
+              mountains. Wander through lush forests, breathe in the fresh air,
+              and watch the stars twinkle above from the warmth of a campfire or
+              your hot tub.
             </p>
 
             <p>

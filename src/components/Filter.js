@@ -22,7 +22,7 @@ export default function Filter() {
   }
 
   return (
-    <div className="border border-primary-800 flex ">
+    <div className="border border-primary-800 flex">
       {options.map((option) => (
         <button
           type="button"

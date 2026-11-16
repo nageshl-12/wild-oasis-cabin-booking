@@ -2,6 +2,7 @@ import CabinList from '@/components/CabinList';
 import { Suspense } from 'react';
 import Loading from './loading';
 import Filter from '@/components/Filter';
+import ReservationReminder from '@/components/ReservationReminder';
 
 export const metadata = {
   title: 'Cabins',
@@ -30,6 +31,7 @@ export default async function Page({ searchParams }) {
       <div className="sticky top-0 z-50 flex justify-end mb-5 bg-primary-950 py-3 -translate-y-0.5">
         <Filter />
       </div>
+      <ReservationReminder />
 
       <Suspense fallback={<Loading />} key={filter}>
         <CabinList filter={filter} />

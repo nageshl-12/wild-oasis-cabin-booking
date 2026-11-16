@@ -2,6 +2,7 @@ import '@/styles/globals.css';
 import { Josefin_Sans } from 'next/font/google';
 import Header from '@/components/Header';
 import { Suspense } from 'react';
+import { ReservationProvider } from '@/components/ReservationContext';
 
 const josefin = Josefin_Sans({ subsets: ['latin'], display: 'swap' });
 
@@ -25,7 +26,7 @@ export default function RootLayout({ children }) {
         </Suspense>
 
         <main className="w-full min-h-0 overflow-y-auto overscroll-y-contain">
-          {children}
+          <ReservationProvider>{children}</ReservationProvider>
         </main>
       </body>
     </html>

@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { auth } from '@/lib/auth';
 import { getBookings } from '@/lib/data-service';
 import ReservationList from '@/components/ReservationList';
@@ -7,12 +8,20 @@ export const metadata = {
   title: 'Reservations',
 };
 
-export default async function Page() {
+export default function Page() {
+  return (
+    <Suspense fallback={<p>Loading reservations...</p>}>
+      <Reservations />
+    </Suspense>
+  );
+}
+
+async function Reservations() {
   const session = await auth();
   const bookings = await getBookings(session.user.guestId);
 
   return (
-    <div className=" animate-fade-in-up">
+    <div className="animate-fade-in-up">
       <h2 className="font-semibold text-2xl text-accent-400 mb-7">
         Your reservations
       </h2>

@@ -12,7 +12,11 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <Suspense fallback={<p>Loading reservations...</p>}>
+    <Suspense
+      fallback={
+        <p className="text-accent-400 text-2xl">Loading reservations...</p>
+      }
+    >
       <Reservations />
     </Suspense>
   );

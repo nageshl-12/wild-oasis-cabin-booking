@@ -203,9 +203,8 @@ npm start
 
 **Nagesh L.**
 
-- GitHub: [Your GitHub Profile](YOUR_GITHUB_PROFILE_URL)
-- LinkedIn: [Your LinkedIn Profile](YOUR_LINKEDIN_PROFILE_URL)
-
+- GitHub: https://github.com/nageshl-12
+- LinkedIn: https://www.linkedin.com/in/nagesh-l/
 ---
 
 <p align="center">

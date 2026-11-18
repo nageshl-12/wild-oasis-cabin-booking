@@ -9,14 +9,13 @@
 </p>
 
 <p align="center">
-  ![Next.js](https://img.shields.io/badge/Next.js-Framework-black?logo=next.js)
-  ![React](https://img.shields.io/badge/React-UI-61DAFB?logo=react&logoColor=black)
-  ![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-06B6D4?logo=tailwindcss&logoColor=white)
-  ![Supabase](https://img.shields.io/badge/Supabase-Database-3FCF8E?logo=supabase&logoColor=white)
-  ![Auth.js](https://img.shields.io/badge/Auth.js-Authentication-purple)
-  ![Vercel](https://img.shields.io/badge/Deployed-Vercel-black?logo=vercel)
+  <img src="https://img.shields.io/badge/Next.js-Framework-black?logo=next.js" />
+  <img src="https://img.shields.io/badge/React-UI-61DAFB?logo=react&logoColor=black" />
+  <img src="https://img.shields.io/badge/Tailwind-CSS-06B6D4?logo=tailwindcss&logoColor=white" />
+  <img src="https://img.shields.io/badge/Supabase-Database-3FCF8E?logo=supabase&logoColor=white" />
+  <img src="https://img.shields.io/badge/Auth.js-Authentication-purple" />
+  <img src="https://img.shields.io/badge/Deployed-Vercel-black?logo=vercel" />
 </p>
-
 ---
 
 ## ✨ Overview
@@ -134,7 +133,7 @@ wild-oasis-cabin-booking/
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/nageshl-12/wild-oasis-cabin-booking
 ```
 
 ### 2. Navigate to the project

@@ -10,9 +10,8 @@ export const metadata = {
 };
 
 export default async function Page() {
-
   'use cache';
-  
+
   cacheLife({
     stale: 0,
     revalidate: 20,
@@ -25,7 +24,7 @@ export default async function Page() {
     <div className="space-y-20 px-5 py-5 max-w-250 mx-auto md:mt-5 mt-2 overflow-y-auto">
       {/* First Section */}
       <section>
-        <h1 className="text-4xl mb-10 text-accent-400 font-medium">
+        <h1 className="md:text-4xl text-2xl mb-10 text-accent-400 font-medium">
           Welcome to The Wild Oasis
         </h1>
 
@@ -78,7 +77,7 @@ export default async function Page() {
           </div>
 
           <div className="flex-1">
-            <h2 className="text-4xl mb-10 text-accent-400 font-medium">
+            <h2 className="md:text-4xl text-xl mb-10 text-accent-400 font-medium">
               Managed by our family since 1962
             </h2>
 

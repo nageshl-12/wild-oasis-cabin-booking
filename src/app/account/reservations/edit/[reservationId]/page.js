@@ -1,7 +1,12 @@
-export default function Page() {
-  // CHANGE
-  const reservationId = 23;
-  const maxCapacity = 23;
+import SubmitButton from '@/components/SubmitButton';
+import { updateReservation } from '@/lib/actions';
+import { getBooking, getCabin } from '@/lib/data-service';
+
+export default async function Page({ params }) {
+  const { reservationId } = await params;
+
+  const { cabinId, numGuests, observations } = await getBooking(reservationId);
+  const { maxCapacity } = await getCabin(cabinId);
 
   return (
     <div>
@@ -9,10 +14,17 @@ export default function Page() {
         Edit Reservation #{reservationId}
       </h2>
 
-      <form className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col">
+      <form
+        key={`${reservationId}-${numGuests}-${observations}`}
+        action={updateReservation}
+        className="bg-primary-900 md:py-8 md:px-12 px-4 py-4 text-lg flex gap-6 flex-col"
+      >
+        <input type="hidden" name="reservationId" value={reservationId} />
+
         <div className="space-y-2">
           <label htmlFor="numGuests">How many guests?</label>
           <select
+            defaultValue={numGuests}
             name="numGuests"
             id="numGuests"
             className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
@@ -23,7 +35,7 @@ export default function Page() {
             </option>
             {Array.from({ length: maxCapacity }, (_, i) => i + 1).map((x) => (
               <option value={x} key={x}>
-                {x} {x === 1 ? "guest" : "guests"}
+                {x} {x === 1 ? 'guest' : 'guests'}
               </option>
             ))}
           </select>
@@ -34,15 +46,16 @@ export default function Page() {
             Anything we should know about your stay?
           </label>
           <textarea
+            defaultValue={observations}
             name="observations"
             className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
           />
         </div>
 
         <div className="flex justify-end items-center gap-6">
-          <button className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300">
+          <SubmitButton pendingLabel="Updating...">
             Update reservation
-          </button>
+          </SubmitButton>
         </div>
       </form>
     </div>

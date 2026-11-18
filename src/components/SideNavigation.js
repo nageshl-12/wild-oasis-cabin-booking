@@ -1,5 +1,5 @@
 'use client';
-import { ArrowRightSquareIcon, CalendarDays, Home, User } from 'lucide-react';
+import { CalendarDays, Home, User } from 'lucide-react';
 
 import SignOutButton from '@/components/SignOutButton';
 import Link from 'next/link';
@@ -24,12 +24,6 @@ const navLinks = [
     nameMobile: 'Profile',
     href: '/account/profile',
     icon: User,
-  },
-  {
-    nameDesktop: 'Sign out',
-    nameMobile: 'Sign out',
-    href: '/account/authentication',
-    icon: ArrowRightSquareIcon,
   },
 ];
 
@@ -63,6 +57,8 @@ function SideNavigation() {
             </Link>
           </li>
         ))}
+
+        <SignOutButton />
       </ul>
     </nav>
   );

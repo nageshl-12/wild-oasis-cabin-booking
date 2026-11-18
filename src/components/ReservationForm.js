@@ -1,34 +1,58 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
+import { differenceInDays, format } from 'date-fns';
 import { useReservation } from './ReservationContext';
+import { createReservation } from '@/lib/actions';
+import SubmitButton from './SubmitButton';
 
-function ReservationForm({ cabin }) {
-  const { range } = useReservation();
+function ReservationForm({ cabin, user }) {
+  const { maxCapacity, regularPrice, discount, id } = cabin;
+  const { range, resetRange } = useReservation();
 
-  const { maxCapacity } = cabin;
+  const startDate = range.from;
+  const endDate = range.to;
+  const numNights = differenceInDays(endDate, startDate);
+  const cabinPrice = numNights * (regularPrice - discount);
 
+  const bookingData = {
+    startDate,
+    endDate,
+    numNights,
+    cabinPrice,
+    cabinId: id,
+  };
+
+  const createReservationWithData = createReservation.bind(null, bookingData);
   return (
     <div className="scale-[1.01]">
       <div className="bg-primary-800 text-primary-300 md:px-16 px-6 py-2 flex justify-between items-center">
         <p>Logged in as</p>
 
-        {/* <div className='flex gap-4 items-center'>
+        <div className="flex gap-4 items-center">
           <img
-            // Important to display google profile images
-            referrerPolicy='no-referrer'
-            className='h-8 rounded-full'
+            referrerPolicy="no-referrer"
+            className="h-8 rounded-full"
             src={user.image}
             alt={user.name}
           />
           <p>{user.name}</p>
-        </div> */}
+        </div>
       </div>
       {range.from && (
-        <p>
-          {String(range.from)} {String(range.to)}
+        <p className="text-center text-sm md:text-lg">
+          {format(String(range.from), 'dd MMM yyyy')} To{' '}
+          {range.to && format(String(range.to), 'dd MMM yyyy')}
         </p>
       )}
-      <form className="bg-primary-900 py-10 md:px-16 px-6 text-lg flex gap-5 flex-col">
+      <form
+        action={async (formData) => {
+          await createReservationWithData(formData);
+          resetRange();
+        }}
+        // action={createReservationWithData}
+        className="bg-primary-900 py-10 md:px-16 px-6 text-lg flex gap-5 flex-col"
+      >
         <div className="space-y-2">
           <label htmlFor="numGuests">How many guests?</label>
           <select
@@ -61,13 +85,13 @@ function ReservationForm({ cabin }) {
         </div>
 
         <div className="flex justify-end items-center gap-6">
-          <p className="text-primary-300 md:text-base text-xs">
-            Start by selecting dates
-          </p>
-
-          <button className="bg-accent-500 md:px-8 text-sm md:py-4 px-5 py-2 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300">
-            Reserve now
-          </button>
+          {!(startDate && endDate) ? (
+            <p className="text-primary-300 md:text-base text-xs">
+              Start by selecting dates
+            </p>
+          ) : (
+            <SubmitButton pendingLabel="Reserving...">Reserve now</SubmitButton>
+          )}
         </div>
       </form>
     </div>

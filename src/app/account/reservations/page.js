@@ -1,16 +1,18 @@
-import ReservationCard from '@/components/ReservationCard';
+import { auth } from '@/lib/auth';
+import { getBookings } from '@/lib/data-service';
+import ReservationList from '@/components/ReservationList';
 import Link from 'next/link';
 
 export const metadata = {
   title: 'Reservations',
 };
 
-export default function Page() {
-  // CHANGE
-  const bookings = [];
+export default async function Page() {
+  const session = await auth();
+  const bookings = await getBookings(session.user.guestId);
 
   return (
-    <div className=" animate-fade-in-up animate-duration-250">
+    <div className=" animate-fade-in-up">
       <h2 className="font-semibold text-2xl text-accent-400 mb-7">
         Your reservations
       </h2>
@@ -23,11 +25,7 @@ export default function Page() {
           </Link>
         </p>
       ) : (
-        <ul className="space-y-6">
-          {bookings.map((booking) => (
-            <ReservationCard booking={booking} key={booking.id} />
-          ))}
-        </ul>
+        <ReservationList bookings={bookings} />
       )}
     </div>
   );

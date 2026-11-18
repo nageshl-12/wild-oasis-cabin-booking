@@ -1,16 +1,14 @@
-'use client';
 import Logo from '@/components/Logo';
 import Navbar from '@/components/Navbar';
-import { usePathname } from 'next/navigation';
-function Header() {
-  const pathname = usePathname();
+import { auth } from '@/lib/auth';
+async function Header() {
+  const session = await auth();
+
   return (
-    <header
-      className={`px-8 py-5 w-full  ${pathname !== '/' && 'bg-primary-950 border-b border-primary-900 '}`}
-    >
+    <header className="px-8 py-5 w-full  border-b border-primary-900">
       <div className="flex justify-between items-center">
         <Logo />
-        <Navbar />
+        <Navbar session={session} />
       </div>
     </header>
   );

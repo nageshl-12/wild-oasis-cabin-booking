@@ -1,5 +1,10 @@
 'use client';
-import { isWithinInterval } from 'date-fns';
+import {
+  differenceInDays,
+  isPast,
+  isSameDay,
+  isWithinInterval,
+} from 'date-fns';
 import { useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
@@ -17,14 +22,12 @@ function isAlreadyBooked(range, datesArr) {
 
 function DateSelector({ settings, cabin, bookedDates }) {
   const { range, setRange, resetRange } = useReservation();
+  const displayRange = isAlreadyBooked(range, bookedDates) ? {} : range;
 
-  // CHANGE
-  const regularPrice = 23;
-  const discount = 23;
-  const numNights = 23;
-  const cabinPrice = 23;
+  const { regularPrice, discount } = cabin;
+  const numNights = differenceInDays(displayRange.to, displayRange.from);
+  const cabinPrice = regularPrice * (numNights - discount);
 
-  // SETTINGS
   const { minBookingLength, maxBookingLength } = settings;
 
   return (
@@ -32,7 +35,11 @@ function DateSelector({ settings, cabin, bookedDates }) {
       <DayPicker
         className="pt-12 place-self-center"
         mode="range"
-        selected={range}
+        selected={displayRange}
+        disabled={(curDate) =>
+          isPast(curDate) ||
+          bookedDates.some((date) => isSameDay(date, curDate))
+        }
         onSelect={setRange}
         min={minBookingLength + 1}
         max={maxBookingLength}
@@ -45,7 +52,7 @@ function DateSelector({ settings, cabin, bookedDates }) {
           months: 'flex md:flex-row flex-col gap-8',
         }}
       />
-      <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-18">
+      <div className="flex items-center justify-between md:px-8 px-2 mt-5 bg-accent-500 text-primary-800 h-18">
         <div className="flex items-baseline gap-6">
           <p className="flex gap-2 items-baseline">
             {discount > 0 ? (
@@ -62,7 +69,7 @@ function DateSelector({ settings, cabin, bookedDates }) {
           </p>
           {numNights ? (
             <>
-              <p className="bg-accent-600 px-3 md:py-2 py-5 md:text-2xl text-lg">
+              <p className="bg-accent-600 px-2 md:py-2 py-5 md:text-2xl text-lg">
                 <span>&times;</span>
                 <span>{numNights}</span>
               </p>

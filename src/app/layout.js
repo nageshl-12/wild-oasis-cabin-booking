@@ -21,7 +21,9 @@ export default async function RootLayout({ children }) {
       <body
         className={`bg-primary-950 antialiased text-primary-100 ${josefin.className} grid grid-rows-[auto_minmax(0,1fr)] h-dvh overflow-hidden`}
       >
-        <Header />
+        <Suspense fallback={null}>
+          <Header />
+        </Suspense>
 
         <main className="w-full min-h-0 overflow-y-auto overscroll-y-contain">
           <ReservationProvider>{children}</ReservationProvider>

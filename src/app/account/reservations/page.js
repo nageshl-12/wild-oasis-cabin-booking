@@ -4,6 +4,8 @@ import { getBookings } from '@/lib/data-service';
 import ReservationList from '@/components/ReservationList';
 import Link from 'next/link';
 
+export const instant = false;
+
 export const metadata = {
   title: 'Reservations',
 };

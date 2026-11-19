@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { differenceInDays, format } from 'date-fns';
+import { differenceInDays, format, isSameDay } from 'date-fns';
 import { useReservation } from './ReservationContext';
 import { createReservation } from '@/lib/actions';
 import SubmitButton from './SubmitButton';
@@ -24,6 +24,12 @@ function ReservationForm({ cabin, user }) {
   };
 
   const createReservationWithData = createReservation.bind(null, bookingData);
+
+  let showDate = false;
+
+  if (range.from && range.to && !isSameDay(range.from, range.to)) {
+    showDate = true;
+  }
   return (
     <div className="scale-[1.01]">
       <div className="bg-primary-800 text-primary-300 md:px-16 px-6 py-2 flex justify-between items-center">
@@ -39,7 +45,7 @@ function ReservationForm({ cabin, user }) {
           <p>{user.name}</p>
         </div>
       </div>
-      {range.from && (
+      {showDate && (
         <p className="text-center text-sm md:text-lg">
           {format(String(range.from), 'dd MMM yyyy')} To{' '}
           {range.to && format(String(range.to), 'dd MMM yyyy')}

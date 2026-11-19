@@ -1,8 +1,10 @@
+import ResetReservation from '@/components/ResetReservation';
 import Link from 'next/link';
 
 export default function Page() {
   return (
     <div className="text-center space-y-6 mt-4">
+      <ResetReservation />
       <h1 className="md:text-3xl text-lg font-semibold">
         Thank you for your reservation!
       </h1>

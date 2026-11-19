@@ -1,10 +1,10 @@
 'use client';
-import React from 'react';
 import { useFormStatus } from 'react-dom';
 import SpinnerMini from './SpinnerMini';
 
 export default function SubmitButton({ children, pendingLabel }) {
   const { pending } = useFormStatus();
+
   return (
     <button
       disabled={pending}

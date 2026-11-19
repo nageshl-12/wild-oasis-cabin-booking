@@ -5,29 +5,32 @@ import {
   isSameDay,
   isWithinInterval,
 } from 'date-fns';
-import { useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { useReservation } from './ReservationContext';
 
 function isAlreadyBooked(range, datesArr) {
   return (
-    range.from &&
-    range.to &&
+    range?.from &&
+    range?.to &&
     datesArr.some((date) =>
-      isWithinInterval(date, { start: range.from, end: range.to }),
+      isWithinInterval(date, {
+        start: range.from,
+        end: range.to,
+      }),
     )
   );
 }
-
 function DateSelector({ settings, cabin, bookedDates }) {
   const { range, setRange, resetRange } = useReservation();
-  const displayRange = isAlreadyBooked(range, bookedDates) ? {} : range;
+  const displayRange = isAlreadyBooked(range, bookedDates) ? {} : range || {};
 
   const { regularPrice, discount } = cabin;
-  const numNights = differenceInDays(displayRange.to, displayRange.from);
-  const cabinPrice = regularPrice * (numNights - discount);
-
+  const numNights =
+    displayRange.from && displayRange.to
+      ? differenceInDays(displayRange.to, displayRange.from)
+      : 0;
+  const cabinPrice = (regularPrice - discount) * numNights;
   const { minBookingLength, maxBookingLength } = settings;
 
   return (
@@ -40,57 +43,95 @@ function DateSelector({ settings, cabin, bookedDates }) {
           isPast(curDate) ||
           bookedDates.some((date) => isSameDay(date, curDate))
         }
-        onSelect={setRange}
+        onSelect={(selectedRange) => {
+          if (
+            selectedRange?.from &&
+            selectedRange?.to &&
+            isSameDay(selectedRange.from, selectedRange.to)
+          ) {
+            return;
+          }
+
+          setRange(selectedRange || {});
+        }}
         min={minBookingLength + 1}
         max={maxBookingLength}
-        fromMonth={new Date()}
-        fromDate={new Date()}
-        toYear={new Date().getFullYear() + 5}
+        startMonth={new Date()}
+        endMonth={new Date(2030, 11)}
         captionLayout="dropdown"
         numberOfMonths={2}
         classNames={{
           months: 'flex md:flex-row flex-col gap-8',
         }}
       />
-      <div className="flex items-center justify-between md:px-8 px-2 mt-5 bg-accent-500 text-primary-800 h-18">
-        <div className="flex items-baseline gap-6">
-          <p className="flex gap-2 items-baseline">
+
+      <div
+        className="
+  flex flex-col md:flex-row
+  md:items-center md:justify-between
+  gap-3 md:gap-0
+  mt-5
+  bg-accent-500 text-primary-800
+  px-3 md:px-2
+  py-3 md:py-0
+  md:h-18
+  min-h-20
+  w-full
+  shrink-0
+"
+      >
+        <div className="flex items-center justify-between md:justify-start gap-4">
+          <p className="flex items-baseline gap-2">
             {discount > 0 ? (
               <>
-                <span className="text-2xl">${regularPrice - discount}</span>
-                <span className="line-through font-semibold text-primary-700">
+                <span className="text-xl md:text-2xl">
+                  ${regularPrice - discount}
+                </span>
+                <span className="line-through font-semibold text-primary-700 text-sm">
                   ${regularPrice}
                 </span>
               </>
             ) : (
-              <span className="text-2xl">${regularPrice}</span>
+              <span className="text-xl md:text-2xl">${regularPrice}</span>
             )}
-            <span className="">/night</span>
+            <span className="text-sm">/night</span>
           </p>
-          {numNights ? (
-            <>
-              <p className="bg-accent-600 px-2 md:py-2 py-5 md:text-2xl text-lg">
-                <span>&times;</span>
-                <span>{numNights}</span>
-              </p>
-              <p>
-                <span className="md:text-lg text-xs font-bold uppercase">
-                  Total
-                </span>{' '}
-                <span className="text-2xl font-semibold">${cabinPrice}</span>
-              </p>
-            </>
+
+          {range?.from || range?.to ? (
+            <button
+              className="md:hidden border border-primary-800 px-3 py-2 text-xs font-semibold"
+              onClick={resetRange}
+            >
+              Clear
+            </button>
           ) : null}
         </div>
 
-        {range.from || range.to ? (
-          <button
-            className="border border-primary-800 py-2 px-4 text-sm font-semibold"
-            onClick={resetRange}
-          >
-            Clear
-          </button>
-        ) : null}
+        {numNights > 0 && (
+          <div className="flex items-center justify-between md:justify-start gap-3">
+            <p className="bg-accent-600 px-3 py-2 text-lg md:text-2xl">
+              × {numNights}
+            </p>
+
+            <p className="flex items-baseline gap-2">
+              <span className="text-xs md:text-lg font-bold uppercase">
+                Total
+              </span>
+              <span className="text-xl md:text-2xl font-semibold">
+                ${cabinPrice}
+              </span>
+            </p>
+
+            {range?.from || range?.to ? (
+              <button
+                className="hidden md:block border border-primary-800 py-2 px-4 text-sm font-semibold cursor-pointer"
+                onClick={resetRange}
+              >
+                Clear
+              </button>
+            ) : null}
+          </div>
+        )}
       </div>
     </div>
   );

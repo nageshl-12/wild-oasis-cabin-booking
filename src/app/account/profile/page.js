@@ -1,4 +1,3 @@
-// import SelectCountry from 'starter/components/SelectCountry';
 import SelectCountry from '@/components/SelectCountry';
 import UpdateProfileForm from '@/components/UpdateProfileForm';
 import { auth } from '@/lib/auth';

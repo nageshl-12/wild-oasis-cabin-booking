@@ -50,7 +50,6 @@ function ReservationForm({ cabin, user }) {
           await createReservationWithData(formData);
           resetRange();
         }}
-        // action={createReservationWithData}
         className="bg-primary-900 py-10 md:px-16 px-6 text-lg flex gap-5 flex-col"
       >
         <div className="space-y-2">

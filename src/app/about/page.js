@@ -22,7 +22,6 @@ export default async function Page() {
 
   return (
     <div className="space-y-20 px-5 py-5 max-w-250 mx-auto md:mt-5 mt-2 overflow-y-auto">
-      {/* First Section */}
       <section>
         <h1 className="md:text-4xl text-2xl mb-10 text-accent-400 font-medium">
           Welcome to The Wild Oasis
@@ -64,7 +63,6 @@ export default async function Page() {
         </div>
       </section>
 
-      {/* Second Section */}
       <section>
         <div className="flex flex-col md:flex-row gap-10 items-center">
           <div className="w-full sm:w-1/3 animate-fade-in-up animate-duration-800">

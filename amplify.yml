@@ -6,7 +6,7 @@ frontend:
         - npm ci
     build:
       commands:
-        - env | grep -E '^(SUPABASE_URL|SUPABASE_KEY|AUTH_GOOGLE_ID|AUTH_GOOGLE_SECRET|AUTH_SECRET|NEXTAUTH_URL)=' >> .env.production
+        - env | grep -E '^(SUPABASE_URL|SUPABASE_KEY|AUTH_GOOGLE_ID|AUTH_GOOGLE_SECRET|AUTH_SECRET|AUTH_URL|AUTH_TRUST_HOST|NEXTAUTH_URL)=' >> .env.production
         - npm run build
   artifacts:
     baseDirectory: .next
